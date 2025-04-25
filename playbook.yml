@@ -1,0 +1,46 @@
+---
+- name: Provisioning JBoss in Domain Mode (WildFly)
+  hosts: jboss1
+  become: true
+  vars_files:
+    - vars/connection_vars.yml
+    - vars/app_vars.yml
+
+  tasks:
+    - name: Create a server group
+      shell: |
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}         --commands="/server-group={{ sg_name }}:add(profile={{ profile }},socket-binding-group=full-sockets)"
+      tags: sgroup
+
+    - name: Add server to group and start it
+      shell: |
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}         --commands="/host={{ host }}/server-config={{ server }}:add(group={{ sg_name }},socket-binding-default-interface=public,socket-binding-port-offset={{ offset }}),        /host={{ host }}/server-config={{ server }}:start"
+      tags: server
+
+    - name: Wait for server to start
+      pause:
+        seconds: 15
+      tags: pause
+
+    - name: Deploy the .war application
+      shell: |
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}         --commands="deploy --name={{ war_name }} --server-groups={{ sg_name }}"
+      tags: deploy
+
+    - name: Set JVM initial heap size
+      shell: >
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}
+        --commands="/host={{ host }}/jvm={{ jvm_name }}:write-attribute(name=heap-size,value={{ heap_size }})"
+      tags: jvm
+
+    - name: Set JVM max heap size
+      shell: >
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}
+        --commands="/host={{ host }}/jvm={{ jvm_name }}:write-attribute(name=max-heap-size,value={{ max_heap_size }})"
+      notify: restart server
+      tags: jvm
+
+  handlers:
+    - name: restart server
+      shell: |
+        {{ script_path }} --connect --controller={{ ip }}:{{ port }} --user={{ user }} --password={{ password }}         --commands="/host={{ host }}/server-config={{ server }}:restart"

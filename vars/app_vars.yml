@@ -1,0 +1,10 @@
+# Application-specific configuration for deployment
+host: "{{ jboss_host_name }}"              # Host name within the JBoss domain (e.g., slave3)
+sg_name: "{{ server_group_name }}"         # Name of the server group to create/use
+server: "{{ jboss_server_name }}"          # Name of the server instance to create
+offset: "{{ port_offset }}"                # Port offset to avoid conflicts
+jvm_name: "{{ jvm_instance_name }}"        # JVM name (usually 'default')
+heap_size: "{{ jvm_heap_size }}"           # Initial heap size (e.g., 350m)
+max_heap_size: "{{ jvm_max_heap_size }}"   # Max heap size (e.g., 670m)
+war_name: "{{ war_file_name }}"            # .war file to deploy (must be available to JBoss)
+profile: "{{ jboss_profile }}"             # Profile used in the domain (e.g., full)

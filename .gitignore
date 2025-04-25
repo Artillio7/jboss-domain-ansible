@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Secrets and sensitive files
+*.vault
+*.key
+*.pem
+*.jks
+connection_vars.yml
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db

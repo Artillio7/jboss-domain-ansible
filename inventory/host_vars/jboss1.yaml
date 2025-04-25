@@ -1,0 +1,2 @@
+ansible_host: "{{ jboss_server_ip }}"  # IP address of the JBoss host
+ansible_user: "{{ ansible_connection_user }}"  # SSH user for Ansible connection
