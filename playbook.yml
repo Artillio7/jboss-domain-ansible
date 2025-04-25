@@ -1,3 +1,4 @@
+
 ---
 - name: Provisioning JBoss in Domain Mode (WildFly)
   hosts: jboss1

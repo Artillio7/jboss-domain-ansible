@@ -1,4 +1,4 @@
-# Application-specific configuration for deployment
+ # Application-specific configuration for deployment
 host: "{{ jboss_host_name }}"              # Host name within the JBoss domain (e.g., slave3)
 sg_name: "{{ server_group_name }}"         # Name of the server group to create/use
 server: "{{ jboss_server_name }}"          # Name of the server instance to create
