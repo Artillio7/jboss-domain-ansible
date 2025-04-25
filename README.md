@@ -1,6 +1,10 @@
+![alt text](images/image.png)
+
 # Ansible Playbook for JBoss Domain Mode (WildFly) Management
 
 This repository provides a reusable Ansible playbook to automate the setup and management of JBoss servers in domain mode (WildFly 24).
+
+![alt text](images/image-1.png)
 
 ## Features
 - Create a server group
